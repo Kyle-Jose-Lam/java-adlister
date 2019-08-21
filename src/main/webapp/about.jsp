@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <%-- Be consistent choose one, this is Fer's fav --%>
 <jsp:include page="/partials/header.jsp" />
@@ -34,6 +35,41 @@
 
 <p>User-Agent header: <%= request.getHeader("user-agent")  %></p>
 
+<ul>
+    <c:if test="${param.color == 'blue'}">
+        <li>this shows only for blue</li>
+    </c:if>
+    <c:if test="${param.color != 'blue'}">
+        <li>this shows only for non-blue</li>
+    </c:if>
+    <li>This always shows</li>
+</ul>
+
+<c:choose>
+    <c:when test="${param.role == 'admin'}">
+        <button>Delete users</button>
+        <button>Edit profile</button>
+    </c:when>
+    <c:when test="${param.role == 'user'}">
+        <button>Create a post</button>
+        <button>Edit profile</button>
+    </c:when>
+    <c:otherwise>
+        <%-- Guests --%>
+        <button>Create an account</button>
+    </c:otherwise>
+</c:choose>
+
+<%! String[] names = {"fer", "daniel", "nestor", "nikho"}; %>
+<% request.setAttribute("names", names); %>
+
+<nav>
+    <ul>
+        <c:forEach var="name" items="${names}">
+            <li>${name}</li>
+        </c:forEach>
+    </ul>
+</nav>
 
 <%@ include file="/partials/scripts.jsp" %>
 
