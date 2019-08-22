@@ -3,7 +3,25 @@ MVC
 Model -> Controller -> View
 State -> Logic      -> Presentation
 Data  -> Decision   -> Design
-Beans -> Servlets   -> JSPs
+Beans+DAO -> Servlets   -> JSPs
+
+DAO - Interface + Implementation
+interface Cats {
+        List<Cat> findAll();
+        Cat findById(long id);
+        int create(String name, String breed);
+        void update(Cat cat);
+        void delete(Cat cat);
+        void deleteById(long id);
+}
+class CatsList implements Cats {...}
+
+class DAOFactory {
+    static Cats getCats() {
+    }
+
+in a servlet...
+DAOFactory.getCats().findAll()
 
 index.jsp -> "/" (MainServlet)
 login.jsp -> "/login" (LoginServlet)
