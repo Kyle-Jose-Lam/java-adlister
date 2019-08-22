@@ -9,7 +9,9 @@
 <html>
 <head>
     <title>Title</title>
-    <%@ include file="/partials/header.jsp"%>
+    <jsp:include page="partials/header.jsp">
+        <jsp:param name="isKid" value="false"/>
+    </jsp:include>
 </head>
 <body>
 

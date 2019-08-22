@@ -24,8 +24,11 @@
 <html>
 <head>
     <title>Title</title>
+    <%@ include file="/partials/header.jsp"%>
 </head>
 <body>
+
+<%@ include file="/partials/navbar.jsp"%>
 
 <form action="/login.jsp" method="post">
     <label for="username">Username</label>
