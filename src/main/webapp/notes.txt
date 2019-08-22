@@ -1,0 +1,10 @@
+MVC
+
+Model -> Controller -> View
+State -> Logic      -> Presentation
+Data  -> Decision   -> Design
+Beans -> Servlets   -> JSPs
+
+index.jsp -> "/" (MainServlet)
+login.jsp -> "/login" (LoginServlet)
+profile.jsp -> "/profile" (ProfileServlet)
