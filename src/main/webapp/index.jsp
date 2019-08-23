@@ -7,6 +7,7 @@
     </jsp:include>
 </head>
 <body>
+    ${sessionScope.program}
     <jsp:include page="partials/navbar.jsp" />
     <div class="container">
         <h1>Welcome to the Adlister!</h1>
