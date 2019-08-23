@@ -2,7 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListAdsDao implements Ads {
+//    static int adsCount
     private List<Ad> ads;
+    private int num;
 
     public List<Ad> all() {
         if (ads == null) {
@@ -10,6 +12,16 @@ public class ListAdsDao implements Ads {
         }
         return ads;
     }
+
+    @Override
+    public Ad lookup(int id) {
+        return ads.get(id);
+    }
+//
+//    @Override
+//    public int add(String title, String description) {
+//        new Ad(ads.length, title, description);
+//    }
 
     private List<Ad> generateAds() {
         List<Ad> ads = new ArrayList<>();
