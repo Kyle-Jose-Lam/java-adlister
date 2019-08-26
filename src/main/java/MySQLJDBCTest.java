@@ -25,7 +25,7 @@ public class MySQLJDBCTest {
             statement.executeUpdate(queryString, Statement.RETURN_GENERATED_KEYS);
             ResultSet rs = statement.getGeneratedKeys();
             while (rs.next()) {
-                System.out.println("Inserted a new record! New ids: " + rs.getLong(1));
+                System.out.println("Inserted a new record! New id is: " + rs.getLong(1));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -39,7 +39,7 @@ public class MySQLJDBCTest {
             if (results != null) {
                 System.out.println("Statement executed successfully");
                 while (results.next()) {
-//                    System.out.println("id: "+results.getLong("id"));
+                    System.out.print(results.getLong("id")+": ");
                     System.out.print("\"" +results.getString("content") + "\"");
                     System.out.println(" - "+results.getString("author_first_name") +
                             " " + results.getString("author_last_name")+"\n");
@@ -55,7 +55,7 @@ public class MySQLJDBCTest {
     public static void update(Connection connection, int id) {
         try {
             Statement statement = connection.createStatement();
-            String queryString = "UPDATE quotes SET author_first_name = \"UPDATE\" WHERE id = " + id;
+            String queryString = "UPDATE quotes SET content = \"I didn't say that!\" WHERE id = " + id;
 
             statement.execute(queryString);
             System.out.println("Statement executed successfully");
@@ -74,6 +74,7 @@ public class MySQLJDBCTest {
             System.out.println("Statement executed successfully");
 
         } catch (SQLException ex) {
+            System.out.println("Statement exploded");
             ex.printStackTrace();
         }
     }
@@ -84,10 +85,10 @@ public class MySQLJDBCTest {
             System.out.println("Connection Successful");
 
             create(connection);
-            review(connection);
-            update(connection, 12);
-//            delete(connection, 11);
-//            delete(connection, 10);
+//            review(connection);
+//            update(connection, 13);
+//            delete(connection, 12);
+//            delete(connection, 13);
             review(connection);
         } catch (SQLException ex) {
             ex.printStackTrace();
