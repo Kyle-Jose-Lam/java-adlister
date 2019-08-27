@@ -1,6 +1,7 @@
 import com.mysql.cj.jdbc.Driver;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MySQLAdsDao implements Ads{
@@ -15,6 +16,8 @@ public class MySQLAdsDao implements Ads{
                     Config.getPassword()
             );
             System.out.println("Successfully connected to database");
+//            this.generateAds();
+//            System.out.println("Added test data, remember to remove generateAds");
         } catch (SQLException ex) {
             System.out.println("Connection to database failed");
             ex.printStackTrace();
@@ -23,45 +26,81 @@ public class MySQLAdsDao implements Ads{
 
     @Override
     public List<Ad> all() {
-//        try {
-//            Statement statement = connection.createStatement();
-//            String queryString = "SELECT * FROM quotes";
-//            ResultSet results = statement.executeQuery(queryString);
-//            if (results != null) {
-//                System.out.println("Statement executed successfully");
-//                while (results.next()) {
-//                    System.out.print(results.getLong("id")+": ");
-//                    System.out.print("\"" +results.getString("content") + "\"");
-//                    System.out.println(" - "+results.getString("author_first_name") +
-//                            " " + results.getString("author_last_name")+"\n");
-//                }
-//                System.out.println("No more results");
-//            }
-//            else
-//                System.out.println("Statement exploded");
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
+        List<Ad> ads = new ArrayList<>();
 
-        return null;
+        try {
+            Statement statement = this.connection.createStatement();
+            String queryString = "SELECT * FROM ads";
+            ResultSet results = statement.executeQuery(queryString);
+            if (results != null) {
+                System.out.println("Statement executed successfully");
+                while (results.next()) {
+                    Ad nextAd = new Ad(
+                        results.getLong("id"),
+                        results.getLong("user_id"),
+                        results.getString("title"),
+                        results.getString("description")
+                    );
+                    ads.add(nextAd);
+                }
+                System.out.println("No more results");
+            }
+            else
+                System.out.println("no ads found");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return ads;
     }
 
     @Override
     public Long insert(Ad ad) {
-//        try {
-//            Statement statement = connection.createStatement();
-//            String queryString = "INSERT INTO quotes(author_first_name, author_last_name, content) " +
-//                    "VALUES ('Master', 'Yoda', 'Do or do not. There is no try')";
-//
-//            statement.executeUpdate(queryString, Statement.RETURN_GENERATED_KEYS);
-//            ResultSet rs = statement.getGeneratedKeys();
-//            while (rs.next()) {
-//                System.out.println("Inserted a new record! New id is: " + rs.getLong(1));
-//            }
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        }
-
-        return null;
+        Long id = -1L;
+        try {
+            Statement statement = connection.createStatement();
+            String queryString = "INSERT INTO ads(user_id, title, description) " +
+                    "VALUES (1, '"+ad.getTitle()+"', '"+ad.getDescription()+"');";
+            System.out.println(queryString);
+            statement.executeUpdate(queryString, Statement.RETURN_GENERATED_KEYS);
+            ResultSet rs = statement.getGeneratedKeys();
+            while (rs.next()) {
+                id = rs.getLong(1);
+                System.out.println("Inserted a new record! New id is: " + id);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return id;
     }
+
+    private void generateAds() {
+//        List<Ad> ads = new ArrayList<>();
+        this.insert(new Ad(
+                1,
+                1,
+                "playstation for sale",
+                "This is a slightly used playstation"
+        ));
+        this.insert(new Ad(
+                2,
+                1,
+                "Super Nintendo",
+                "Get your game on with this old-school classic!"
+        ));
+        this.insert(new Ad(
+                3,
+                2,
+                "Junior Java Developer Position",
+                "Minimum 7 years of experience required. You will be working in the scripting language for Java, JavaScript"
+        ));
+        this.insert(new Ad(
+                4,
+                2,
+                "JavaScript Developer needed",
+                "Must have strong Java skills"
+        ));
+//        return ads;
+    }
+
 }
